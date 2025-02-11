@@ -14,22 +14,23 @@ using namespace std;
 // 自己创建的线程也要从一个函数（初始函数）开始运行；
 void myprint()
 {
-	cout << "我的线程开始执行了" << endl;
+	cout << "My thread starts" << endl;
 	//....
 	//....
-	cout << "我的线程执行完毕了1" << endl;
-	cout << "我的线程执行完毕了2" << endl;
-	cout << "我的线程执行完毕了3" << endl;
-	cout << "我的线程执行完毕了4" << endl;
-	cout << "我的线程执行完毕了5" << endl;
-	cout << "我的线程执行完毕了6" << endl;
-	cout << "我的线程执行完毕了7" << endl;
-	cout << "我的线程执行完毕了8" << endl;
-	cout << "我的线程执行完毕了9" << endl;
-	cout << "我的线程执行完毕了10" << endl;
+	cout << "My thread is over 1" << endl;
+	cout << "My thread is over 2" << endl;
+	cout << "My thread is over 3" << endl;
+	cout << "My thread is over 4" << endl;
+	cout << "My thread is over 5" << endl;
+	cout << "My thread is over 6" << endl;
+	cout << "My thread is over 7" << endl;
+	cout << "My thread is over 8" << endl;
+	cout << "My thread is over 9" << endl;
+	cout << "My thread is over 10" << endl;
 }
 
-int main()
+// int main()
+int main01()
 {
 	//一：范例演示线程运行的开始和结束
 	//程序运行起来，生成一个进程，该进程所属的主线程开始自动运行；
@@ -74,7 +75,7 @@ int main()
 	// 阻塞主线程并等待myprint子线程执行完
 	//mytobj.join();
 	//主线程阻塞到这里等待myprint()执行完，当子线程执行完毕，这个join()就执行完毕，主线程就继续往下走
-	mytobj.detach();
+	// mytobj.detach();
 	//一旦调用了detach()，就不能再用join()，否则系统会报告异常。
 	//mytobj.join();
 	if (mytobj.joinable())
@@ -104,15 +105,15 @@ public:
 	int m_i;
 	TA(int &i) : m_i(i)
 	{
-		cout << "TA()构造函数被执行" << endl;
+		cout << "TA() constructor is executed" << endl;
 	}
 	TA(const TA &ta) :m_i(ta.m_i)
 	{
-		cout << "TA()拷贝构造函数被执行" << endl;
+		cout << "TA() copy constructor is executed" << endl;
 	}
 	~TA()
 	{
-		cout << "TA()析构函数被执行" << endl;
+		cout << "TA() destructor is executed" << endl;
 	}
 	void operator() ()
 		// 不带参数
@@ -120,31 +121,42 @@ public:
 		//cout << "我的operator()开始执行了" << endl;
 		////...
 		//cout << "我的operator()结束执行了" << endl;
-		cout << "m_i1的值为:" << m_i << endl;
+		cout << "m_i1:" << m_i << endl;
 		// 产生不可预料的结果。
-		cout << "m_i2的值为:" << m_i << endl;
-		cout << "m_i3的值为:" << m_i << endl;
-		cout << "m_i4的值为:" << m_i << endl;
-		cout << "m_i5的值为:" << m_i << endl;
-		cout << "m_i6的值为:" << m_i << endl;
+		cout << "m_i2:" << m_i << endl;
+		cout << "m_i3:" << m_i << endl;
+		cout << "m_i4:" << m_i << endl;
+		cout << "m_i5:" << m_i << endl;
+		cout << "m_i6:" << m_i << endl;
+	}
+
+	void what_can_i_say()
+	{
+		cout << "m_i1:" << m_i << endl;
+		// 产生不可预料的结果。
+		cout << "m_i2:" << m_i << endl;
+		cout << "m_i3:" << m_i << endl;
+		cout << "m_i4:" << m_i << endl;
+		cout << "m_i5:" << m_i << endl;
+		cout << "m_i6:" << m_i << endl;
 	}
 };
 
-int main02()
+int main()
+// int main02()
 {
 	//二：其他创建线程的手法
 	//（2.1）用类对象（可调用对像），以及一个问题范例
 	//大家可能还有一个疑问：一旦调用了detach()，那我主线程执行结束了，我这里用的ta这个对象还在吗？（对象不在了）
 	//这个对象实际上是被 复制 到线程中去；执行完主线程后，ta会被销毁，但是所复制的TA对象依旧存在。
 	//所以，只要你这个TA类对象里没有引用，没有指针，那么就不会产生问题；
-
 	int myi = 6;
 	TA ta(myi);
 	thread mytobj3(ta);
 	//ta:可调用对象
-	//mytobj3.join();
+	mytobj3.join();
 	// 等待子线程执行结束
-	mytobj3.detach();
+	// mytobj3.detach();
 
 	cout << "I Love China!" << endl;
 
