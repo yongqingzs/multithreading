@@ -35,11 +35,6 @@ int main01()
 
 	//下列程序通过std::future对象的get()成员函数等待线程执行结束并返回结果；
 	//这个get()函数很牛，不拿到将来的返回值 誓不罢休，不拿到值我就卡在这里等待拿值；
-	/* 
-	说明：
-	1. 只要返回了std::future<int> result = ，无论是否延迟，只有get()了才会结束
-	
-	*/
 
 	cout << "main" << " threadid = " << std::this_thread::get_id() << endl;
 	std::future<int> result = std::async(mythread);
@@ -89,7 +84,10 @@ int main()
 	//std::launch::deferred：延迟调用，并且没有创建新线程，是在主线程中调用的 线程入口函数；
 	//b）std::launch::async，在调用async函数的时候就开始创建新线程；
 	//async()函数，默认用的就是std::launch::async标记
-
+	/* 
+	1. std::launch::async有没有get，都会执行；有get，在get之后执行
+	2. std::launch::deferred没有get，不会执行
+	*/
 
 	A a;
 	int tmppar = 12;
